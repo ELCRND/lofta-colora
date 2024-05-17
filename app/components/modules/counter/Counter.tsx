@@ -19,7 +19,7 @@ export const Counter = () => {
   const dispatch = useAppDispatch();
   const count = useAppSelector(selectCount);
   const status = useAppSelector(selectStatus);
-  const [incrementAmount, setIncrementAmount] = useState("2");
+  const [incrementAmount, setIncrementAmount] = useState(2);
 
   const incrementValue = Number(incrementAmount) || 0;
 
@@ -51,26 +51,26 @@ export const Counter = () => {
           value={incrementAmount}
           type="number"
           onChange={(e) => {
-            setIncrementAmount(e.target.value);
+            setIncrementAmount(+e.target.value);
           }}
         />
         <button
           className={styles.button}
-          onClick={() => dispatch(incrementByAmount(incrementValue))}
+          onClick={() => dispatch(incrementByAmount(incrementAmount))}
         >
           Add Amount
         </button>
         <button
           className={styles.asyncButton}
           disabled={status !== "idle"}
-          onClick={() => dispatch(incrementAsync(incrementValue))}
+          onClick={() => dispatch(incrementAsync(incrementAmount))}
         >
           Add Async
         </button>
         <button
           className={styles.button}
           onClick={() => {
-            dispatch(incrementIfOdd(incrementValue));
+            dispatch(incrementIfOdd(incrementAmount));
           }}
         >
           Add If Odd

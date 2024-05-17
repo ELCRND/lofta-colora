@@ -1,10 +1,16 @@
 import type { Metadata } from "next";
-import { Counter } from "./components/counter/Counter";
+// import { Counter } from "./components/modules/counter/Counter";
+import Hero from "./components/modules/Hero/Hero";
 
 export default function IndexPage() {
-  return <Counter />;
+  return (
+    <>
+      {/* <Counter />; */}
+      <Hero />
+    </>
+  );
 }
 
 export const metadata: Metadata = {
-  title: "Redux Toolkit",
+  title: "Colora",
 };

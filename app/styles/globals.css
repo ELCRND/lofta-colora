@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 html,
 body {
   min-height: 100vh;
@@ -13,4 +17,52 @@ a {
 
 * {
   box-sizing: border-box;
+}
+
+._container {
+  padding-left: 80px;
+  padding-right: 80px;
+}
+
+._modal-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  perspective: 500px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+._modal {
+  width: 420px;
+  height: 755px;
+  position: relative;
+  z-index: 100;
+  border-radius: 16px;
+  box-shadow: 0 0 8px 0 rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(18px);
+  background: rgba(6, 6, 6, 0.7);
+  transition: transform 1s ease-in-out;
+  transform-style: preserve-3d;
+}
+
+._front,
+._back {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  backface-visibility: hidden;
+  transition: all 1s ease-in-out;
+}
+
+._back {
+  transform: rotateY(180deg);
+}
+
+._flip {
+  transform: rotateY(180deg) scale(-1, 1);
 }
