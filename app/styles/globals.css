@@ -24,7 +24,7 @@ a {
   padding-right: 80px;
 }
 
-._modal-container {
+._auth-modal-container {
   position: fixed;
   top: 0;
   left: 0;
@@ -35,19 +35,51 @@ a {
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 100;
 }
 
-._modal {
+._auth-modal {
   width: 420px;
   height: 755px;
   position: relative;
-  z-index: 100;
   border-radius: 16px;
   box-shadow: 0 0 8px 0 rgba(255, 255, 255, 0.4);
   backdrop-filter: blur(18px);
   background: rgba(6, 6, 6, 0.7);
   transition: transform 1s ease-in-out;
   transform-style: preserve-3d;
+}
+._common-modal-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+}
+._feedback-modal {
+  width: 320px;
+  height: 400px;
+  position: relative;
+  border-radius: 16px;
+  box-shadow: 0 0 8px 0 rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(18px);
+  background: rgba(6, 6, 6, 0.7);
+  transition: transform 1s ease-in-out;
+}
+._product-modal {
+  width: 70vw;
+  height: 90vh;
+  position: relative;
+  border-radius: 16px;
+  box-shadow: 0 0 8px 0 rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(18px);
+  background: rgba(6, 6, 6, 0.7);
+  transition: transform 1s ease-in-out;
 }
 
 ._front,
@@ -65,4 +97,62 @@ a {
 
 ._flip {
   transform: rotateY(180deg) scale(-1, 1);
+}
+
+._inner-nav {
+  position: relative;
+}
+._inner-nav::before {
+  content: "";
+  display: block;
+  width: 0%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 16px;
+  z-index: -1;
+}
+._inner-nav:hover {
+  border-color: bisque;
+  color: bisque;
+  transition: all 1.8s ease;
+}
+._inner-nav:hover::before {
+  animation: inner_nav_hover 0.2s linear 0.2s forwards;
+}
+
+@keyframes inner_nav_hover {
+  0% {
+    width: 1%;
+  }
+  100% {
+    width: 101%;
+  }
+}
+
+.q {
+  transform: rotateX(25deg);
+}
+
+.qqq path {
+  animation: q 10s infinite;
+}
+
+@keyframes q {
+  0% {
+    filter: hue-rotate(-30deg) brightness(1.5);
+  }
+  25% {
+    filter: hue-rotate(-45deg);
+  }
+  50% {
+    filter: hue-rotate(-60deg);
+  }
+  75% {
+    filter: hue-rotate(-45deg);
+  }
+  100% {
+    filter: hue-rotate(-30deg) brightness(1.5);
+  }
 }

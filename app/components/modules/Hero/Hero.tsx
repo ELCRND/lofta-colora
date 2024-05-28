@@ -1,80 +1,11 @@
 import Link from "next/link";
+import Logo from "../../elements/Hero/Logo/Logo";
 
 const Hero = () => {
   return (
     <section className="h-screen grid bg-[url('/hero/hero_bg.jpeg')] bg-cover text-white text-center">
       <div className="flex flex-col items-center absolute top-[170px] left-1/2 -translate-x-1/2">
-        <svg
-          width="234.000000"
-          height="238.000000"
-          viewBox="0 0 234 238"
-          fill="none"
-        >
-          <defs />
-          <path
-            d="M0 0L0 123.83L47.37 66.04L47.37 53.21L57.9 53.21L101.52 0L0 0Z"
-            fill="none"
-            fillOpacity="1.000000"
-            fillRule="nonzero"
-            className="animate-svgFragment_1 "
-          />
-          <path
-            d="M101.52 0L57.9 53.21L180.81 53.21L153.74 0L101.52 0Z"
-            fill="none"
-            fillOpacity="1.000000"
-            fillRule="nonzero"
-            className="animate-svgFragment_2 "
-          />
-          <path
-            d="M180.81 53.21L180.81 69.65L234 34.82L234 0L153.74 0L180.81 53.21Z"
-            fill="none"
-            fillOpacity="1.000000"
-            fillRule="nonzero"
-            className="animate-svgFragment_3 "
-          />
-          <path
-            d="M180.81 159.63L234 192.52L234 34.82L180.81 69.65L180.81 159.63Z"
-            fill="none"
-            fillOpacity="1.000000"
-            fillRule="nonzero"
-            className="animate-svgFragment_4 "
-          />
-          <path
-            d="M137.3 238L234 238L234 192.52L180.81 159.63L180.81 189.62L164.38 189.62L137.3 238Z"
-            fill="none"
-            fillOpacity="1.000000"
-            fillRule="nonzero"
-            className="animate-svgFragment_5 "
-          />
-          <path
-            d="M92.82 189.62L112.16 238L137.3 238L164.38 189.62L92.82 189.62Z"
-            fill="none"
-            fillOpacity="1.000000"
-            fillRule="nonzero"
-            className="animate-svgFragment_6 "
-          />
-          <path
-            d="M47.37 189.62L47.37 170.27L0 139.31L0 238L112.16 238L92.82 189.62L47.37 189.62Z"
-            fill="none"
-            fillOpacity="1.000000"
-            fillRule="nonzero"
-            className="animate-svgFragment_7 "
-          />
-          <path
-            d="M47.37 66.04L0 123.83L0 139.31L47.37 170.27L47.37 66.04Z"
-            fill="none"
-            fillOpacity="1.000000"
-            fillRule="nonzero"
-            className="animate-svgFragment_8  "
-          />
-          <path
-            d="M57.9 53.21L47.37 53.21L47.37 189.62L50.37 189.62L92.82 189.62L180.81 189.62L180.81 53.21L57.9 53.21ZM64.24 50.21L175.92 50.21L151.9 3L102.94 3L64.24 50.21ZM97.64 0L234 0L234 238L0 238L0 0L97.64 0ZM3 3L95.19 3L56.48 50.21L44.37 50.21L44.37 64.97L3 115.44L3 3ZM3 124.91L3 137.69L44.37 164.73L44.37 74.43L3 124.91ZM44.37 171.9L3 144.86L3 235L107.73 235L90.79 192.62L44.37 192.62L44.37 171.9ZM97.25 192.62L114.19 235L135.54 235L159.26 192.62L97.25 192.62ZM166.13 192.62L142.42 235L231 235L231 194.2L183.81 165.01L183.81 192.62L166.13 192.62ZM183.81 157.96L231 187.14L231 40.37L183.81 71.27L183.81 157.96ZM183.81 64.1L231 33.2L231 3L158.63 3L183.81 52.49L183.81 64.1Z"
-            fill="#000000"
-            fillOpacity="1.000000"
-            fillRule="evenodd"
-            // stroke="white"
-          />
-        </svg>
+        <Logo />
         <h1 className="mt-6 text-4xl font-normal">LOFTA COLORA</h1>
         <h2 className="text-2xl font-normal">Ваш проводник в мир дизайна</h2>
       </div>

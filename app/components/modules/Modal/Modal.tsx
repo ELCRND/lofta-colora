@@ -2,21 +2,23 @@ import Portal, { createContainer } from "@/lib/features/portal/portal";
 import {
   MouseEventHandler,
   useCallback,
-  useContext,
   useEffect,
   useRef,
   useState,
 } from "react";
-import { AuthContext } from "../Header/Header";
 
-type Props = { onClose?: () => void; children: React.ReactNode };
+type Props = {
+  onClose?: VoidFunction;
+  children: React.ReactNode;
+  cnModal: string;
+  cnModalWrapper: string;
+};
 
 const MODAL_CONTAINER_ID = "modal-container-id";
 
-const Modal = ({ onClose, children }: Props) => {
+const Modal = ({ onClose, children, cnModal, cnModalWrapper }: Props) => {
   const rootRef = useRef<HTMLDivElement>(null);
   const [isMounted, setMounted] = useState(false);
-  const { userIsRegister } = useContext(AuthContext);
 
   const handleClose: MouseEventHandler<HTMLButtonElement> = useCallback(() => {
     onClose?.();
@@ -52,10 +54,10 @@ const Modal = ({ onClose, children }: Props) => {
 
   return isMounted ? (
     <Portal id={MODAL_CONTAINER_ID}>
-      <div ref={rootRef} className="_modal-container">
-        <div className={`_modal ${userIsRegister && "_flip"}`}>
+      <div ref={rootRef} className={cnModalWrapper}>
+        <div className={cnModal}>
           <button
-            className="text-white text-2xl ml-auto mr-4 block"
+            className="text-white text-2xl ml-auto mr-4 block select-none"
             type="button"
             onClick={handleClose}
           >

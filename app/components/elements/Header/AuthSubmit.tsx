@@ -7,7 +7,7 @@ type Props = {
   textWhenLoading: string;
 };
 
-const FormBtn = ({ formId, loading, text, textWhenLoading }: Props) => {
+const AuthSubmit = ({ formId, loading, text, textWhenLoading }: Props) => {
   return (
     <button
       form={formId}
@@ -18,4 +18,4 @@ const FormBtn = ({ formId, loading, text, textWhenLoading }: Props) => {
   );
 };
 
-export default FormBtn;
+export default AuthSubmit;

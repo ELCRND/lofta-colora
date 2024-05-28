@@ -58,3 +58,9 @@ export const createUserAndGenerateTokens = async (
 
 export const findUserByEmail = async (db: Db, email: string) =>
   db.collection("users").findOne({ email });
+
+export const getProducts = async (db: Db) => {
+  const accessories = await db.collection("paints").find().toArray();
+
+  return accessories;
+};

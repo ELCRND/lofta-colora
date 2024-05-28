@@ -1,7 +1,9 @@
+import Link from "next/link";
+
 const YandexBtn = () => {
   return (
-    <button
-      type="button"
+    <Link
+      href={"/api/auth/signin"}
       className="w-full py-2 px-4 flex justify-center items-center bg-[#d9d9d9] rounded-md"
     >
       <svg width="29.000000" height="29.000000" viewBox="0 0 29 29" fill="none">
@@ -13,7 +15,7 @@ const YandexBtn = () => {
           fillRule="evenodd"
         />
       </svg>
-    </button>
+    </Link>
   );
 };
 

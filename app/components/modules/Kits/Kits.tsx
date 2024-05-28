@@ -2,7 +2,7 @@ import Link from "next/link";
 
 const Kits = () => {
   return (
-    <section className="h-screen pb-20 relative overflow-hidden bg-[url('/kits/kits_layers_base.jpeg')] bg-cover text-white">
+    <section className="h-screen pb-20 relative overflow-hidden bg-[url('/common_layers_base.jpeg')] bg-cover text-white">
       <div className="h-full">
         <div className="h-full bg-[url('/kits/kits_layers_front.png')] bg-contain bg-no-repeat bg-right "></div>
         <div className="w-full h-full relative -top-[95%] left-[2%]  bg-[url('/kits/kits_outline.png')] bg-contain bg-no-repeat bg-right"></div>

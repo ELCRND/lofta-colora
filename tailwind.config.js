@@ -40,6 +40,14 @@ module.exports = {
           "0%": { fill: "#eee" },
           "100%": { fill: "#0092C8" },
         },
+        "menu-open": {
+          "0%": { right: "-240px" },
+          "100%": { right: "0px" },
+        },
+        "menu-close": {
+          "0%": { right: "0px" },
+          "100%": { right: "-240px" },
+        },
       },
 
       animation: {
@@ -51,6 +59,8 @@ module.exports = {
         svgFragment_6: "svgFragment_6 1s linear forwards 3.5s",
         svgFragment_7: "svgFragment_7 1s linear forwards 2.5s",
         svgFragment_8: "svgFragment_8 1s linear forwards 4.5s",
+        "menu-open": "menu-open 150ms linear forwards ",
+        "menu-close": "menu-close 150ms linear forwards ",
       },
     },
   },

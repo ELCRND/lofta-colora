@@ -1,7 +1,4 @@
 "use client";
-import Nav from "./Nav/Nav";
-import Menu from "../../elements/Header/Menu";
-import Logo from "../../elements/Header/Logo";
 import {
   Dispatch,
   SetStateAction,
@@ -9,12 +6,15 @@ import {
   useMemo,
   useState,
 } from "react";
-import Modal from "../Modal/Modal";
-import SignIn from "./SignIn/SignIn";
-import SignUp from "./SignUp/SignUp";
-import { Toaster } from "react-hot-toast";
-import { useSession } from "next-auth/react";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
+import Modal from "../Modal/Modal";
+import SignUp from "./SignUp/SignUp";
+import SignIn from "./SignIn/SignIn";
+import Logo from "../../elements/Header/Logo";
+import GlobalNavigation from "../../elements/Header/GlobalNavigation";
+import MenuBtn from "../../elements/Header/MenuBtn";
+import Menu from "./Menu/Menu";
 
 export const AuthContext = createContext<{
   userIsRegister: boolean;
@@ -29,6 +29,7 @@ export const AuthContext = createContext<{
 const Header = () => {
   const [userIsRegister, setUserIsRegister] = useState(false);
   const [isModalActive, setModalActive] = useState(false);
+  const [isShowMenu, setIsShowMenu] = useState(false);
   const contextValue = useMemo(
     () => ({ userIsRegister, setUserIsRegister, setModalActive }),
     [userIsRegister]
@@ -42,32 +43,35 @@ const Header = () => {
     setModalActive(false);
   };
   return (
-    <header className="_container w-full h-[76px] fixed flex justify-between items-center bg-black  text-white text-xl z-50">
-      <Logo />
-      <Nav />
-      <div className="flex gap-6 items-center">
-        <div>
-          {session?.status === "authenticated" ? (
-            <Link href={"/api/auth/signout"}>Sign Out</Link>
-          ) : (
-            <button type="button" onClick={handleModalOpen}>
-              Sign Up
-            </button>
-          )}
+    <AuthContext.Provider value={contextValue}>
+      <header className="_container w-screen h-[76px] fixed flex justify-between items-center bg-black  text-white text-xl z-50">
+        <Logo />
+        <GlobalNavigation />
+        <div className="flex gap-6 items-center">
+          <div>
+            {session?.status === "authenticated" ? (
+              <Link href={"/api/auth/signout"}>Sign Out</Link>
+            ) : (
+              <button type="button" onClick={handleModalOpen}>
+                Sign Up
+              </button>
+            )}
+          </div>
+          <MenuBtn handleClick={() => setIsShowMenu((p) => !p)} />
+          <Menu isShow={isShowMenu} />
         </div>
-
-        <Menu />
-      </div>
-      {isModalActive && (
-        <AuthContext.Provider value={contextValue}>
-          <Modal onClose={handleModalClose}>
+        {isModalActive && (
+          <Modal
+            onClose={handleModalClose}
+            cnModal={`_auth-modal ${userIsRegister && "_flip"}`}
+            cnModalWrapper={`_auth-modal-container`}
+          >
             <SignIn />
             <SignUp />
           </Modal>
-        </AuthContext.Provider>
-      )}
-      <Toaster />
-    </header>
+        )}
+      </header>
+    </AuthContext.Provider>
   );
 };
 

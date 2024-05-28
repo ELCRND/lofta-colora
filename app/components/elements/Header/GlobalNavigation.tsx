@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-const Nav = () => {
+const GlobalNavigation = () => {
   return (
     <nav>
       <ol className="flex gap-[86px]">
@@ -8,7 +8,7 @@ const Nav = () => {
           <Link href={"/kits"}>Комплекты</Link>
         </li>
         <li>
-          <Link href={"/"}>Каталог</Link>
+          <Link href={"/catalog"}>Каталог</Link>
         </li>
         <li>
           <Link href={"/"}>Партнерам</Link>
@@ -20,11 +20,11 @@ const Nav = () => {
           <Link href={"/"}>О нас</Link>
         </li>
         <li>
-          <Link href={"/"}>Услуги</Link>
+          <Link href={"/services"}>Услуги</Link>
         </li>
       </ol>
     </nav>
   );
 };
 
-export default Nav;
+export default GlobalNavigation;
