@@ -1,13 +1,15 @@
 import bcrypt from "bcrypt";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import clientPromise from "@/lib/mongodb";
 import {
   findUserByEmail,
   generateTokens,
   getDbAndReqBody,
 } from "@/lib/utils/api-routes";
+import { cookies } from "next/headers";
+import Cookies from "js-cookie";
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
   const { db, reqBody } = await getDbAndReqBody(clientPromise, req);
   const user = await findUserByEmail(db, reqBody.email);
 
@@ -35,8 +37,32 @@ export async function POST(req: Request) {
 
   const tokens = generateTokens(reqBody.email, user.role);
 
+  const expires = new Date();
   const response = NextResponse.json(tokens, { status: 200 });
-  response.cookies.set("tokens", JSON.stringify(tokens), { httpOnly: true });
+  // response.cookies.set(
+  //   "session",
+  //   JSON.stringify({
+  //     status: "authenticated",
+  //     user: { id: user._id, email: user.email },
+  //     tokens,
+  //   }),
+  //   {
+  //     httpOnly: true,
+  //     expires: expires.getTime() + 60 * 5 * 1000,
+  //   }
+  // );
+  // cookies().set(
+  //   "session",
+  //   JSON.stringify({
+  //     status: "authenticated",
+  //     user: { id: user._id, email: user.email },
+  //     tokens,
+  //   }),
+  //   {
+  //     httpOnly: true,
+  //     expires: expires.getTime() + 60 * 10 * 1000,
+  //   }
+  // );
 
   return response;
 }

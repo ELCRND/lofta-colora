@@ -13,8 +13,6 @@ const Catalog = ({ products }: { products: IProduct[] }) => {
     (f) => f._id
   );
 
-  // console.log(isFavoritess);
-
   const handleModalOpen = () => {
     setShowModal(true);
     bodyScrollOff();

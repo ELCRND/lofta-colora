@@ -18,6 +18,7 @@ const config = {
     }),
     Postmark,
   ],
+
   secret: process.env.NEXTAUTH_SECRET,
   adapter: MongoDBAdapter(clientPromise),
 } satisfies NextAuthConfig;

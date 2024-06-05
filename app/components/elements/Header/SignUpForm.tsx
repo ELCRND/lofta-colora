@@ -1,6 +1,6 @@
 import { useContext, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import { AuthContext } from "../../modules/Header/Header";
 
 type Inputs = {
@@ -23,7 +23,11 @@ const SignUpForm = () => {
       setLoading(true);
       const res = await fetch("/api/users/signup", {
         method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify(data),
+        credentials: "omit",
       });
 
       if (res.status === 400) {

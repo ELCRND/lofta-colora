@@ -64,3 +64,53 @@ export const getProducts = async (db: Db) => {
 
   return accessories;
 };
+
+export const isValidAccessToken = async (token: string | undefined) => {
+  const baseError = {
+    message: "unauthorized",
+    status: 401,
+  };
+  let jwtError = null;
+  if (!token) {
+    return {
+      ...baseError,
+      error: { message: "jwt is required" },
+    };
+  }
+  jwt.verify(
+    token,
+    process.env.NEXT_PUBLIC_ACCESS_TOKEN_KEY!,
+    async (err: VerifyErrors | null) => {
+      if (err) {
+        jwtError = err;
+      }
+    }
+  );
+
+  if (jwtError) {
+    return {
+      ...baseError,
+      error: jwtError,
+    };
+  }
+
+  return { status: 200 };
+};
+
+export const getAuthRouteData = async (
+  clientPromise: Promise<MongoClient>,
+  req: Request,
+  withReqBody = true
+) => {
+  const { db, reqBody } = await getDbAndReqBody(
+    clientPromise,
+    withReqBody ? req : null
+  );
+  const token = req.headers.get("authorization")?.split(" ")[1];
+  const tokenIsValid = await isValidAccessToken(token);
+  return { db, reqBody, tokenIsValid, token };
+};
+
+export const parseJwt = (token: string) => {
+  return JSON.parse(Buffer.from(token.split(".")[1], "base64").toString());
+};

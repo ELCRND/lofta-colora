@@ -8,6 +8,5 @@ interface Props {
 
 export default async function SessionLayout({ children }: Props) {
   const session = await auth();
-  // console.log(session);
   return <SessionProvider session={session}>{children}</SessionProvider>;
 }

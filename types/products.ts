@@ -9,6 +9,14 @@ export interface ICharacteristics {
   substance: string;
 }
 
+export interface IDate {
+  year: string;
+  month: string;
+  day: string;
+  hour: string;
+  minute: string;
+}
+
 export interface IProduct {
   _id: string;
   category: string;
@@ -18,4 +26,5 @@ export interface IProduct {
   description: string;
   images: string[];
   characteristics: ICharacteristics;
+  date?: string;
 }

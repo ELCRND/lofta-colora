@@ -26,7 +26,9 @@ const ProductModal = () => {
       <div className="h-full flex flex-col">
         <h3 className="mb-4 text-white text-3xl">{product.name}</h3>
         <p>{product.description}</p>
+
         <Characteristics characteristics={product.characteristics} />
+
         <div className="mt-auto flex items-center justify-end">
           <Counter count={count} setCount={setCount} />
           <Price count={count} price={price} />

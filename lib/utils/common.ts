@@ -1,5 +1,3 @@
-import { IProduct } from "@/types/products";
-
 export function bodyScrollOff() {
   document.body.style.paddingRight = "17px";
   document.body.style.overflow = "hidden";

@@ -1,10 +1,14 @@
-import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { useContext } from "react";
 import { AuthContext } from "../Header";
 
-const Menu = ({ isShow }: { isShow: boolean }) => {
-  const session = useSession();
+const Menu = ({
+  isShow,
+  isSession,
+}: {
+  isShow: boolean;
+  isSession: boolean;
+}) => {
   const { setModalActive } = useContext(AuthContext);
   return (
     <div
@@ -14,8 +18,8 @@ const Menu = ({ isShow }: { isShow: boolean }) => {
     >
       <ol>
         <li>
-          {session?.status === "authenticated" ? (
-            <Link href={"/"}>Профиль</Link>
+          {isSession ? (
+            <Link href={"/profile"}>Профиль</Link>
           ) : (
             <button onClick={() => setModalActive(true)} type="button">
               Профиль

@@ -1,11 +1,11 @@
 "use client";
-import { selectFavorites } from "@/lib/features/slices/favoritesSlice";
-import { useAppSelector } from "@/lib/hooks";
-import FavoriteProductCard from "./FavoriteProductCard.tsx/FavoriteProductCard";
+import { useState } from "react";
 import Modal from "../Modal/Modal";
 import ProductModal from "../Catalog/ProductModal/ProductModal";
+import FavoriteProductCard from "./FavoriteProductCard.tsx/FavoriteProductCard";
+import { selectFavorites } from "@/lib/features/slices/favoritesSlice";
 import { bodyScrollOff, bodyScrollOn } from "@/lib/utils/common";
-import { useState } from "react";
+import { useAppSelector } from "@/lib/hooks";
 
 const Favorites = () => {
   const favorites = useAppSelector(selectFavorites);
@@ -22,7 +22,11 @@ const Favorites = () => {
     <section className="min-h-screen pt-32 flex  justify-center items-center bg-black bg-[url('/common_layers_base.jpeg')]">
       <div className="w-3/4 flex flex-col gap-16 ">
         {favorites.map((f) => (
-          <FavoriteProductCard product={f} modalHandler={handleModalOpen} />
+          <FavoriteProductCard
+            key={f._id}
+            product={f}
+            modalHandler={handleModalOpen}
+          />
         ))}
       </div>
       {showModal && (

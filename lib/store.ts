@@ -3,10 +3,16 @@ import { combineSlices, configureStore } from "@reduxjs/toolkit";
 import { productSlice } from "./features/slices/productSlice";
 import { LoadingSlice } from "./features/slices/loadingSlice";
 import { favoritesSlice } from "./features/slices/favoritesSlice";
+import { authSlice } from "./features/auth/authSlice";
 
 export type RootState = ReturnType<typeof rootReducer>;
 
-const rootReducer = combineSlices(productSlice, LoadingSlice, favoritesSlice);
+const rootReducer = combineSlices(
+  productSlice,
+  LoadingSlice,
+  favoritesSlice,
+  authSlice
+);
 
 export const makeStore = () => {
   return configureStore({

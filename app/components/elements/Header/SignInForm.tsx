@@ -1,7 +1,8 @@
-import { SubmitHandler, useForm } from "react-hook-form";
-import { useContext, useState } from "react";
+import { useForm } from "react-hook-form";
+import { useContext } from "react";
 import { AuthContext } from "../../modules/Header/Header";
-import toast from "react-hot-toast";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+import { selectIsLoading, signin } from "@/lib/features/auth/authSlice";
 
 type Inputs = {
   email: string;
@@ -9,37 +10,19 @@ type Inputs = {
 };
 
 const SignInForm = () => {
-  const { setUserIsRegister, setModalActive } = useContext(AuthContext);
-  const [loading, setLoading] = useState(false);
+  const dispach = useAppDispatch();
+  const { setUserIsRegister } = useContext(AuthContext);
+  const loading = useAppSelector(selectIsLoading);
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm<Inputs>();
-  const onLogin: SubmitHandler<Inputs> = async (data) => {
-    try {
-      setLoading(true);
-      const res = await fetch("/api/users/signin", {
-        method: "POST",
-        body: JSON.stringify(data),
-      });
-      if (res.status === 400) {
-        toast((await res.json()).warningMessage);
-      } else if (res.status === 200) {
-        toast("Вход успешно выполнен");
-        setModalActive(false);
-      }
-    } catch (error) {
-      throw new Error(error as string).message;
-    } finally {
-      setLoading(false);
-    }
-  };
+
   return (
     <form
       id="authForm"
-      onSubmit={handleSubmit(onLogin)}
+      onSubmit={handleSubmit((data) => dispach(signin(data)))}
       className="mt-10 flex flex-col gap-3 items-center"
     >
       <label className="w-full flex flex-col relative before:w-5 before:h-6 before:absolute before:top-1/2 before:left-2 before:bg-[url('/header/tel_icon.svg')] before:bg-contain before:bg-center before:bg-no-repeat">

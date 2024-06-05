@@ -12,10 +12,10 @@ const Hoc = ({ children }: Props) => {
   useEffect(() => {
     // Synchronization Redux store with LS
     if (typeof window !== "undefined") {
-      const dataFromLS = localStorage.getItem("favorites");
+      const favorites = localStorage.getItem("favorites");
 
-      if (dataFromLS) {
-        dispatch(setInitialStateFromLS(JSON.parse(dataFromLS)!));
+      if (favorites) {
+        dispatch(setInitialStateFromLS(JSON.parse(favorites)!));
       }
     }
   }, [dispatch]);

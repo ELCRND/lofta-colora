@@ -6,7 +6,7 @@ const initialState: IProduct[] = [];
 
 export const favoritesSlice = createAppSlice({
   name: "favoritesSlice",
-  initialState: initialState || [""],
+  initialState: initialState,
   reducers: (create) => ({
     addToFavorites: create.reducer((state, action: PayloadAction<IProduct>) => {
       state.push(action.payload);

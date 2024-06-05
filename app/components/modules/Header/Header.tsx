@@ -6,15 +6,18 @@ import {
   useMemo,
   useState,
 } from "react";
-import Link from "next/link";
-import { useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import Modal from "../Modal/Modal";
+import Menu from "./Menu/Menu";
 import SignUp from "./SignUp/SignUp";
 import SignIn from "./SignIn/SignIn";
 import Logo from "../../elements/Header/Logo";
 import GlobalNavigation from "../../elements/Header/GlobalNavigation";
 import MenuBtn from "../../elements/Header/MenuBtn";
-import Menu from "./Menu/Menu";
+import { selectUser } from "@/lib/features/auth/authSlice";
+import { signOut as signOutFromJwtSession } from "@/lib/features/auth/authSlice";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+import { redirect } from "next/navigation";
 
 export const AuthContext = createContext<{
   userIsRegister: boolean;
@@ -30,12 +33,23 @@ const Header = () => {
   const [userIsRegister, setUserIsRegister] = useState(false);
   const [isModalActive, setModalActive] = useState(false);
   const [isShowMenu, setIsShowMenu] = useState(false);
+  const { status } = useSession();
+  const authWithUsingJwt = useAppSelector(selectUser);
+  const isSession = status === "authenticated" || authWithUsingJwt !== null;
+  const dispatch = useAppDispatch();
+
   const contextValue = useMemo(
     () => ({ userIsRegister, setUserIsRegister, setModalActive }),
     [userIsRegister]
   );
-  const session = useSession();
-
+  const handleSignOut = () => {
+    if (status === "authenticated") {
+      signOut();
+      return;
+    }
+    dispatch(signOutFromJwtSession());
+    redirect("/");
+  };
   const handleModalOpen = () => {
     setModalActive(true);
   };
@@ -44,13 +58,15 @@ const Header = () => {
   };
   return (
     <AuthContext.Provider value={contextValue}>
-      <header className="_container w-screen h-[76px] fixed flex justify-between items-center bg-black  text-white text-xl z-50">
+      <header className="_container w-screen h-[76px] fixed flex justify-between items-center bg-black bg-opacity-50 text-white text-xl z-50">
         <Logo />
         <GlobalNavigation />
         <div className="flex gap-6 items-center">
           <div>
-            {session?.status === "authenticated" ? (
-              <Link href={"/api/auth/signout"}>Sign Out</Link>
+            {isSession ? (
+              <button type="button" onClick={handleSignOut}>
+                Sign Out
+              </button>
             ) : (
               <button type="button" onClick={handleModalOpen}>
                 Sign Up
@@ -58,8 +74,9 @@ const Header = () => {
             )}
           </div>
           <MenuBtn handleClick={() => setIsShowMenu((p) => !p)} />
-          <Menu isShow={isShowMenu} />
+          <Menu isShow={isShowMenu} isSession={isSession} />
         </div>
+
         {isModalActive && (
           <Modal
             onClose={handleModalClose}

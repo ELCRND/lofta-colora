@@ -27,7 +27,6 @@ export const productSlice = createAppSlice({
   initialState,
   reducers: (create) => ({
     setProduct: create.reducer((state, action: PayloadAction<IProduct>) => {
-      console.log(action.payload);
       return (state = action.payload);
     }),
   }),

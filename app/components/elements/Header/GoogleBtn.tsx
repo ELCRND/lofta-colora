@@ -1,10 +1,9 @@
-import Link from "next/link";
-import React from "react";
+import { signIn } from "next-auth/react";
 
 const GoogleBtn = () => {
   return (
-    <Link
-      href={"/api/auth/signin"}
+    <button
+      onClick={() => signIn("google")}
       type="button"
       className="w-full py-2 px-4 flex justify-center items-center bg-[#d9d9d9] rounded-md"
     >
@@ -17,7 +16,7 @@ const GoogleBtn = () => {
           fillRule="nonzero"
         />
       </svg>
-    </Link>
+    </button>
   );
 };
 
