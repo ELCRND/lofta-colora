@@ -5,13 +5,23 @@ import { useEffect, useState } from "react";
 import Modal from "../Modal/Modal";
 import ProductModal from "./ProductModal/ProductModal";
 import { bodyScrollOff, bodyScrollOn } from "@/lib/utils/common";
-import { useAppSelector } from "@/lib/hooks";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+import { selectUser } from "@/lib/features/auth/authSlice";
+import {
+  getFavorites,
+  selectFavoritesId,
+} from "@/lib/features/favorites/favoritesSlice";
 
 const Catalog = ({ products }: { products: IProduct[] }) => {
   const [showModal, setShowModal] = useState(false);
-  const favorites = useAppSelector((state) => state.favoritesSlice).map(
-    (f) => f._id
-  );
+  const favorites = useAppSelector(selectFavoritesId);
+  const user = useAppSelector(selectUser);
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (!user?.email) return;
+    dispatch(getFavorites(user?.email!));
+  }, [user?.email]);
 
   const handleModalOpen = () => {
     setShowModal(true);
@@ -23,14 +33,15 @@ const Catalog = ({ products }: { products: IProduct[] }) => {
   };
   return (
     <section className="_container min-h-screen pt-24 bg-black bg-[url('/common_layers_base.jpeg')]">
-      <h1>ftglkhjsgfi</h1>
+      <h1 className="text-[red]">ftglkhjsgfi</h1>
       <div className="  grid gap-x-10 gap-y-28 grid-cols-[repeat(auto-fit,minmax(400px,1fr))]  ">
         {products.map((product: IProduct) => (
           <ProductCard
             key={product._id}
             product={product}
             modalHandler={handleModalOpen}
-            favorites={favorites}
+            isFavorite={favorites.includes(product._id)}
+            email={user?.email!}
           />
         ))}
       </div>

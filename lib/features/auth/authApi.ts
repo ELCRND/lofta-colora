@@ -10,11 +10,7 @@ export const loginFetch = async (userData: {
       body: JSON.stringify(userData),
     }
   );
-  const result: {
-    warningMessage: any;
-    accessToken: string;
-    refreshToken: string;
-  } = await response.json();
+  const result = await response.json();
 
   return result;
 };

@@ -3,9 +3,10 @@ import { useState } from "react";
 import Modal from "../Modal/Modal";
 import ProductModal from "../Catalog/ProductModal/ProductModal";
 import FavoriteProductCard from "./FavoriteProductCard.tsx/FavoriteProductCard";
-import { selectFavorites } from "@/lib/features/slices/favoritesSlice";
+
 import { bodyScrollOff, bodyScrollOn } from "@/lib/utils/common";
 import { useAppSelector } from "@/lib/hooks";
+import { selectFavorites } from "@/lib/features/favorites/favoritesSlice";
 
 const Favorites = () => {
   const favorites = useAppSelector(selectFavorites);

@@ -11,6 +11,7 @@ import { NextResponse } from "next/server";
 export async function POST(req: Request) {
   try {
     const { db, reqBody } = await getDbAndReqBody(clientPromise, req);
+    const user = await findUserByEmail(db, parseJwt(reqBody.jwt).email);
 
     if (reqBody?.jwt) {
       const refreshToken = reqBody.jwt;
@@ -22,8 +23,6 @@ export async function POST(req: Request) {
         refreshToken,
         process.env.NEXT_PUBLIC_REFRESH_TOKEN_KEY as string,
         async (err: VerifyErrors | null) => {
-          const user = await findUserByEmail(db, parseJwt(reqBody.jwt).email);
-
           if (!user) {
             error = { message: "Invalid jwt token" };
             return;
@@ -63,7 +62,14 @@ export async function POST(req: Request) {
         });
       }
 
-      return NextResponse.json({ accessToken, refreshToken });
+      return NextResponse.json({
+        user: {
+          email: user?.email,
+          name: user?.name,
+          _id: user?._id,
+        },
+        tokenst: { accessToken, refreshToken },
+      });
     } else {
       return NextResponse.json({
         message: "jwt is required",

@@ -60,9 +60,24 @@ export const findUserByEmail = async (db: Db, email: string) =>
   db.collection("users").findOne({ email });
 
 export const getProducts = async (db: Db) => {
-  const accessories = await db.collection("paints").find().toArray();
+  const products = await db.collection("paints").find().toArray();
 
-  return accessories;
+  return products;
+};
+
+export const createCollectionFavorites = async (db: Db, email: string) => {
+  const favorites = await db.collection("favorites").insertOne({
+    email,
+    favoritesId: [],
+  });
+  return favorites;
+};
+
+export const getCollectionsFavorites = async (db: Db, email: string) => {
+  const collectionFavorites = await db
+    .collection("favorites")
+    .findOne({ email });
+  return collectionFavorites;
 };
 
 export const isValidAccessToken = async (token: string | undefined) => {

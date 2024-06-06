@@ -1,10 +1,10 @@
 import Image from "next/image";
 import RemoveFromFavorites from "@/app/components/elements/Favorites/RemoveFromFavorites";
 import Title from "@/app/components/elements/Favorites/Title";
-import { removeFromFavorites } from "@/lib/features/slices/favoritesSlice";
 import { setProduct } from "@/lib/features/slices/productSlice";
 import { useAppDispatch } from "@/lib/hooks";
 import { IProduct } from "@/types/products";
+import { removeFromFavorites } from "@/lib/features/favorites/favoritesSlice";
 
 type Props = {
   product: IProduct;

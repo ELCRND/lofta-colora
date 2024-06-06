@@ -18,6 +18,7 @@ import { selectUser } from "@/lib/features/auth/authSlice";
 import { signOut as signOutFromJwtSession } from "@/lib/features/auth/authSlice";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { redirect } from "next/navigation";
+import { selectFavorites } from "@/lib/features/favorites/favoritesSlice";
 
 export const AuthContext = createContext<{
   userIsRegister: boolean;
@@ -35,6 +36,7 @@ const Header = () => {
   const [isShowMenu, setIsShowMenu] = useState(false);
   const { status } = useSession();
   const authWithUsingJwt = useAppSelector(selectUser);
+
   const isSession = status === "authenticated" || authWithUsingJwt !== null;
   const dispatch = useAppDispatch();
 

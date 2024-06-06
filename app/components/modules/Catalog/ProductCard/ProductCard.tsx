@@ -1,27 +1,28 @@
 "use client";
-import React, { useState } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import CardBtn from "@/app/components/elements/Product/CardBtn";
 import CardSizeToggler from "@/app/components/elements/Product/CardSizeToggler";
 import { setProduct } from "@/lib/features/slices/productSlice";
-import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+import { useAppDispatch } from "@/lib/hooks";
 import { IProduct } from "@/types/products";
+
+import CardActions from "@/app/components/elements/Catalog/CardActions";
 import {
   addToFavorites,
   removeFromFavorites,
-} from "@/lib/features/slices/favoritesSlice";
-import CardActions from "@/app/components/elements/Catalog/CardActions";
+} from "@/lib/features/favorites/favoritesSlice";
 
 type Props = {
   product: IProduct;
   modalHandler: VoidFunction;
-  favorites: string[] | null;
+  isFavorite: boolean;
+  email: string;
 };
 
-const ProductCard = ({ product, modalHandler, favorites }: Props) => {
+const ProductCard = ({ product, modalHandler, isFavorite, email }: Props) => {
   const [size, setSize] = useState(0);
   const dispatch = useAppDispatch();
-  const isFavorite = favorites?.includes(product._id);
   const handleClick = () => {
     dispatch(setProduct(product));
     modalHandler();
@@ -36,15 +37,16 @@ const ProductCard = ({ product, modalHandler, favorites }: Props) => {
     minute: "numeric",
   };
 
-  const addToFavirites = () => {
+  const handleFavorites = () => {
     if (isFavorite) {
-      dispatch(removeFromFavorites(product._id));
+      dispatch(removeFromFavorites({ email, productId: product._id }));
       return;
     }
     dispatch(
       addToFavorites({
-        ...product,
-        date: new Intl.DateTimeFormat("ru-RU", options).format(date),
+        email,
+        productId: product._id,
+        dateAdded: new Intl.DateTimeFormat("ru-RU", options).format(date),
       })
     );
   };
@@ -54,7 +56,7 @@ const ProductCard = ({ product, modalHandler, favorites }: Props) => {
       tabIndex={0}
       className="py-5 flex flex-col items-center relative text-white bg-slate-800 bg-opacity-20 rounded-3xl border border-gray-800 hover:border-gray-400 hover:bg-opacity-30 focus:bg-opacity-30 transition-colors"
     >
-      <CardActions isFavorite={isFavorite} handleClick={addToFavirites} />
+      <CardActions isFavorite={isFavorite} handleClick={handleFavorites} />
       <div className="w-36 h-40 flex justify-center items-center">
         <Image
           src={product.images[size]}

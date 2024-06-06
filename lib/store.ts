@@ -2,7 +2,7 @@ import type { Action, ThunkAction } from "@reduxjs/toolkit";
 import { combineSlices, configureStore } from "@reduxjs/toolkit";
 import { productSlice } from "./features/slices/productSlice";
 import { LoadingSlice } from "./features/slices/loadingSlice";
-import { favoritesSlice } from "./features/slices/favoritesSlice";
+import { favoritesSlice } from "./features/favorites/favoritesSlice";
 import { authSlice } from "./features/auth/authSlice";
 
 export type RootState = ReturnType<typeof rootReducer>;

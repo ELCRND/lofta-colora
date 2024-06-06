@@ -3,10 +3,10 @@ import { loginCheckFetch, loginFetch, refreshTokenFetch } from "./authApi";
 import toast from "react-hot-toast";
 import Cookies from "js-cookie";
 
-interface AuthSliceState {
+export interface AuthSliceState {
   currentUser: {
-    accessToken: string;
-    refreshToken: string;
+    email: string;
+    _id: string;
   } | null;
   isLoading: boolean;
 }
@@ -54,8 +54,8 @@ export const authSlice = createSlice({
       if (message) {
         toast(action.payload.warningMessage);
       } else if (!message) {
-        state.currentUser = action.payload;
-        Cookies.set("jwt-session", JSON.stringify(action.payload));
+        state.currentUser = action.payload.user;
+        Cookies.set("jwt-session", JSON.stringify(action.payload.tokens));
         toast("Вход успешно выполнен");
       }
     });
@@ -65,13 +65,13 @@ export const authSlice = createSlice({
 
     builder.addCase(loginCheck.fulfilled, (state, action) => {
       if (action.payload.message === "token is valid") {
-        state.currentUser = action.payload;
+        state.currentUser = action.payload.user;
         toast("Вход успешно выполнен");
       }
     });
     builder.addCase(refreshToken.fulfilled, (state, action) => {
       state.currentUser = action.payload;
-      Cookies.set("jwt-session", JSON.stringify(action.payload));
+      Cookies.set("jwt-session", JSON.stringify(action.payload.tokens));
     });
   },
 });
