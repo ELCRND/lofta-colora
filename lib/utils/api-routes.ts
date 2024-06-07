@@ -65,10 +65,14 @@ export const getProducts = async (db: Db) => {
   return products;
 };
 
-export const createCollectionFavorites = async (db: Db, email: string) => {
+export const createCollectionFavorites = async (
+  db: Db,
+  email: string,
+  initial = []
+) => {
   const favorites = await db.collection("favorites").insertOne({
     email,
-    favoritesId: [],
+    favoritesId: initial,
   });
   return favorites;
 };

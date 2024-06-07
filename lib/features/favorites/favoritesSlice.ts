@@ -31,10 +31,17 @@ export const favoritesSlice = createAppSlice({
   name: "favoritesSlice",
   initialState: initialState,
   reducers: (create) => ({
-    addToFavoritesToLS: create.reducer(
+    addToFavoritesInLS: create.reducer(
       (state, action: PayloadAction<FavoritesSliceState>) => {
         state.push(action.payload);
         localStorage.setItem("favorites", JSON.stringify(state));
+      }
+    ),
+    removeFavoritesFromLS: create.reducer(
+      (state, action: PayloadAction<string>) => {
+        const newState = state.filter((f) => f.productId !== action.payload);
+        localStorage.setItem("favorites", JSON.stringify(newState));
+        return newState;
       }
     ),
 
@@ -52,6 +59,22 @@ export const favoritesSlice = createAppSlice({
 
   extraReducers: (builder) => {
     builder.addCase(getFavorites.fulfilled, (state, action) => {
+      if (!action.payload.favoritesId.length) {
+        const dataFromLS = localStorage.getItem("favorites");
+        if (dataFromLS) {
+          const initialDataFromLS = JSON.parse(dataFromLS);
+          state = initialDataFromLS;
+          fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/favorites/addMany`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              email: action.payload.email,
+              newData: initialDataFromLS,
+            }),
+          });
+          return;
+        }
+      }
       return (state = action.payload.favoritesId);
     });
     builder.addCase(addToFavorites.fulfilled, (state, action) => {
@@ -63,6 +86,9 @@ export const favoritesSlice = createAppSlice({
   },
 });
 
-export const { addToFavoritesToLS, setInitialStateFromLS } =
-  favoritesSlice.actions;
+export const {
+  addToFavoritesInLS,
+  removeFavoritesFromLS,
+  setInitialStateFromLS,
+} = favoritesSlice.actions;
 export const { selectFavorites, selectFavoritesId } = favoritesSlice.selectors;

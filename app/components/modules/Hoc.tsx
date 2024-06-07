@@ -22,6 +22,7 @@ const Hoc = ({ children }: Props) => {
   const dispatch = useAppDispatch();
   useEffect(() => {
     const cookies = Cookies.get("jwt-session");
+    const dataFromLs = JSON.parse(localStorage.getItem("favorites")!);
     if (cookies) {
       const { accessToken, refreshToken } = JSON.parse(cookies);
       dispatch(loginCheck(accessToken)).then((res) => {
@@ -29,11 +30,9 @@ const Hoc = ({ children }: Props) => {
           dispatch(refreshTokenFn(refreshToken));
       });
     }
-    // if (!cookies) {
-    //   dispatch(
-    //     setInitialStateFromLS(JSON.parse(localStorage.getItem("favorites")!))
-    //   );
-    // }
+    if (!cookies && dataFromLs && dataFromLs != "undefined") {
+      dispatch(setInitialStateFromLS(dataFromLs));
+    }
   }, []);
 
   return <>{children}</>;

@@ -19,7 +19,7 @@ const Catalog = ({ products }: { products: IProduct[] }) => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    if (!user?.email) return;
+    if (!user?.email || favorites) return;
     dispatch(getFavorites(user?.email!));
   }, [user?.email]);
 
@@ -40,7 +40,7 @@ const Catalog = ({ products }: { products: IProduct[] }) => {
             key={product._id}
             product={product}
             modalHandler={handleModalOpen}
-            isFavorite={favorites.includes(product._id)}
+            isFavorite={favorites?.includes(product._id) || false}
             email={user?.email!}
           />
         ))}

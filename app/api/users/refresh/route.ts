@@ -68,7 +68,7 @@ export async function POST(req: Request) {
           name: user?.name,
           _id: user?._id,
         },
-        tokenst: { accessToken, refreshToken },
+        tokens: { accessToken, refreshToken },
       });
     } else {
       return NextResponse.json({

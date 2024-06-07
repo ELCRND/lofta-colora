@@ -4,12 +4,14 @@ import Image from "next/image";
 import CardBtn from "@/app/components/elements/Product/CardBtn";
 import CardSizeToggler from "@/app/components/elements/Product/CardSizeToggler";
 import { setProduct } from "@/lib/features/slices/productSlice";
-import { useAppDispatch } from "@/lib/hooks";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { IProduct } from "@/types/products";
 
 import CardActions from "@/app/components/elements/Catalog/CardActions";
 import {
   addToFavorites,
+  addToFavoritesInLS,
+  removeFavoritesFromLS,
   removeFromFavorites,
 } from "@/lib/features/favorites/favoritesSlice";
 
@@ -39,16 +41,25 @@ const ProductCard = ({ product, modalHandler, isFavorite, email }: Props) => {
 
   const handleFavorites = () => {
     if (isFavorite) {
-      dispatch(removeFromFavorites({ email, productId: product._id }));
+      email
+        ? dispatch(removeFromFavorites({ email, productId: product._id }))
+        : dispatch(removeFavoritesFromLS(product._id));
       return;
     }
-    dispatch(
-      addToFavorites({
-        email,
-        productId: product._id,
-        dateAdded: new Intl.DateTimeFormat("ru-RU", options).format(date),
-      })
-    );
+    email
+      ? dispatch(
+          addToFavorites({
+            email,
+            productId: product._id,
+            dateAdded: new Intl.DateTimeFormat("ru-RU", options).format(date),
+          })
+        )
+      : dispatch(
+          addToFavoritesInLS({
+            productId: product._id,
+            dateAdded: new Intl.DateTimeFormat("ru-RU", options).format(date),
+          })
+        );
   };
 
   return (
