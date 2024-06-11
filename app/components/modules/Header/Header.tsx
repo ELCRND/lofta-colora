@@ -18,7 +18,7 @@ import { selectUser } from "@/lib/features/auth/authSlice";
 import { signOut as signOutFromJwtSession } from "@/lib/features/auth/authSlice";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { redirect } from "next/navigation";
-import { selectFavorites } from "@/lib/features/favorites/favoritesSlice";
+import BasketBtn from "../../elements/Header/BasketBtn";
 
 export const AuthContext = createContext<{
   userIsRegister: boolean;
@@ -60,7 +60,7 @@ const Header = () => {
   };
   return (
     <AuthContext.Provider value={contextValue}>
-      <header className="_container w-screen h-[76px] fixed flex justify-between items-center bg-black bg-opacity-50 text-white text-xl z-50">
+      <header className="_container w-screen h-[76px] fixed flex justify-between items-center bg-black bg-opacity-70 text-white text-xl z-50">
         <Logo />
         <GlobalNavigation />
         <div className="flex gap-6 items-center">
@@ -75,6 +75,7 @@ const Header = () => {
               </button>
             )}
           </div>
+          <BasketBtn />
           <MenuBtn handleClick={() => setIsShowMenu((p) => !p)} />
           <Menu isShow={isShowMenu} isSession={isSession} />
         </div>

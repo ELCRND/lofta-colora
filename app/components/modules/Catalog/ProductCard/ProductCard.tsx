@@ -74,7 +74,7 @@ const ProductCard = ({ product, modalHandler, isFavorite, email }: Props) => {
           alt={product.type}
           width="0"
           height="0"
-          sizes="100px"
+          sizes={`100px`}
           className="w-full h-auto"
         />
       </div>

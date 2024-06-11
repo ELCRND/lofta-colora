@@ -7,12 +7,13 @@ type Props = {
   type: string;
   price: number;
   setPrice: (n: number) => void;
+  size: number;
+  setSize: (n: number) => void;
 };
 
-const Gallery = ({ images, type, price, setPrice }: Props) => {
-  const [size, setSize] = useState(0);
+const Gallery = ({ images, type, price, setPrice, size, setSize }: Props) => {
   return (
-    <div className="h-full flex flex-col items-center">
+    <div className="w-3/4 h-full mx-auto flex flex-col items-center">
       <MainImage src={images[size]} alt={type} />
 
       <div className="flex gap-8">
@@ -25,6 +26,7 @@ const Gallery = ({ images, type, price, setPrice }: Props) => {
             setSize(0);
             setPrice(price);
           }}
+          isCheked={true}
         />
         <AlternativeImage
           key={"2.7L"}

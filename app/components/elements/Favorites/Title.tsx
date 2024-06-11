@@ -1,9 +1,9 @@
 type Props = {
-  handleClick: VoidFunction;
   type: string;
   name: string;
-  date: string | undefined;
   price: number;
+  date: string | undefined;
+  handleClick: VoidFunction;
 };
 
 const Title = ({ handleClick, type, name, date, price }: Props) => {

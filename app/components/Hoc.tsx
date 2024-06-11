@@ -1,5 +1,5 @@
 import { ReactNode, useEffect } from "react";
-import { setInitialStateFromLS } from "@/lib/features/slices/favoritesSlice";
+import { setInitialStateFromLS } from "@/lib/features/favorites/favoritesSlice";
 import { useAppDispatch } from "@/lib/hooks";
 
 interface Props {

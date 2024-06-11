@@ -4,6 +4,7 @@ import { productSlice } from "./features/slices/productSlice";
 import { LoadingSlice } from "./features/slices/loadingSlice";
 import { favoritesSlice } from "./features/favorites/favoritesSlice";
 import { authSlice } from "./features/auth/authSlice";
+import { basketSlice } from "./features/basket/basketSlice";
 
 export type RootState = ReturnType<typeof rootReducer>;
 
@@ -11,7 +12,8 @@ const rootReducer = combineSlices(
   productSlice,
   LoadingSlice,
   favoritesSlice,
-  authSlice
+  authSlice,
+  basketSlice
 );
 
 export const makeStore = () => {

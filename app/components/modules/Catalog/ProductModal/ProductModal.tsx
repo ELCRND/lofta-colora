@@ -1,4 +1,4 @@
-import { useAppSelector } from "@/lib/hooks";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 
 import { useState } from "react";
 import Gallery from "./Gallery/Gallery";
@@ -8,11 +8,40 @@ import Price from "@/app/components/elements/Product/Price";
 import AddToCart from "@/app/components/elements/Product/AddToCart";
 import BuyBtn from "@/app/components/elements/Product/BuyBtn";
 import { selectProduct } from "@/lib/features/slices/productSlice";
+import {
+  addToBasket,
+  selectIsLoadingBasket,
+} from "@/lib/features/basket/basketSlice";
 
-const ProductModal = () => {
+const ProductModal = ({ email }: { email: string }) => {
   const product = useAppSelector(selectProduct);
+  const [size, setSize] = useState(0);
   const [count, setCount] = useState(1);
   const [price, setPrice] = useState(product.price);
+  const dispatch = useAppDispatch();
+  const isInBusket = useAppSelector((state) => state.basketSlice.products)
+    .map((p) => {
+      return p.id + p.size;
+    })
+    .includes(product._id + product.characteristics.sizes[size]);
+  const handleClick = () => {
+    if (email) {
+      dispatch(
+        addToBasket({
+          email,
+          product: {
+            id: product._id,
+            name: product.name,
+            type: product.type,
+            count,
+            price,
+            img: product.images.filter((i) => i.includes("_" + (size + 1)))[0],
+            size: product.characteristics.sizes[size],
+          },
+        })
+      );
+    }
+  };
 
   return (
     <form className="p-10 grid grid-cols-2 gap-10 text-gray-400 ">
@@ -21,6 +50,8 @@ const ProductModal = () => {
         type={product.type}
         price={product.price}
         setPrice={setPrice}
+        size={size}
+        setSize={setSize}
       />
 
       <div className="h-full flex flex-col">
@@ -33,7 +64,11 @@ const ProductModal = () => {
           <Counter count={count} setCount={setCount} />
           <Price count={count} price={price} />
           <div className="flex flex-col gap-2">
-            <AddToCart disabled={!count} />
+            <AddToCart
+              disabled={!count || isInBusket}
+              onClick={handleClick}
+              isInBusket={isInBusket}
+            />
             <BuyBtn disabled={!count} />
           </div>
         </div>

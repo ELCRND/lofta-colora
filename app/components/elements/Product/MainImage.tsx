@@ -7,7 +7,7 @@ type Props = {
 
 const MainImage = ({ src, alt }: Props) => {
   return (
-    <div className="w-full h-[50vh] mb-20 flex justify-center items-center bg-white bg-opacity-90 rounded-2xl">
+    <div className="w-full h-[50vh] mb-20 flex justify-center items-center bg-white bg-opacity-90 shadow shadow-black rounded-2xl">
       <div className="w-1/2 ">
         <Image
           src={src}

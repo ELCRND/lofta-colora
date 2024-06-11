@@ -15,20 +15,25 @@ import { IProduct } from "@/types/products";
 import { selectUser } from "@/lib/features/auth/authSlice";
 
 const Favorites = ({ products }: { products: IProduct[] }) => {
+  const [showModal, setShowModal] = useState(false);
   const dispatch = useAppDispatch();
   const user = useAppSelector(selectUser);
   const favorites = useAppSelector(selectFavorites);
-  const favoritesId = useAppSelector(selectFavoritesId);
-  const favoritesProducts = products?.filter((product: IProduct) => {
-    const idx = favoritesId.indexOf(product._id);
-    if (idx >= 0 && product._id === favorites[idx].productId) {
-      return { ...product, date: favorites[idx].dateAdded };
+  const favoritesId = useAppSelector((state) => state.favoritesSlice).map(
+    (f) => f.productId
+  );
+  const favoritesProducts = structuredClone(products).filter(
+    (product: IProduct) => {
+      const idx = favoritesId.indexOf(product._id);
+      if (idx >= 0 && product._id === favorites[idx].productId) {
+        product.date = favorites[idx].dateAdded;
+        return product;
+      }
     }
-  });
-  const [showModal, setShowModal] = useState(false);
+  );
 
   useEffect(() => {
-    if (!user?.email || favorites) return;
+    if (!user?.email || favorites.length) return;
     dispatch(getFavorites(user?.email!));
   }, [user?.email]);
   const handleModalOpen = () => {
@@ -57,7 +62,7 @@ const Favorites = ({ products }: { products: IProduct[] }) => {
           cnModal="_product-modal"
           cnModalWrapper="_common-modal-wrapper"
         >
-          <ProductModal />
+          <ProductModal email={user?.email || ""} />
         </Modal>
       )}
     </section>

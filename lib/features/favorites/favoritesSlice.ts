@@ -6,6 +6,7 @@ import {
   getFavoritesFromDb,
   removeProductFromFavorites,
 } from "./favoritesApi";
+import toast from "react-hot-toast";
 
 export interface FavoritesSliceState {
   productId: string;
@@ -78,9 +79,11 @@ export const favoritesSlice = createAppSlice({
       return (state = action.payload.favoritesId);
     });
     builder.addCase(addToFavorites.fulfilled, (state, action) => {
+      toast("Добавлено в избранное");
       return (state = action.payload.updateFavorites.favoritesId);
     });
     builder.addCase(removeFromFavorites.fulfilled, (state, action) => {
+      toast("Удалено из избранного");
       return (state = action.payload.updateFavorites.favoritesId);
     });
   },

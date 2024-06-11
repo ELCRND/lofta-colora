@@ -7,20 +7,26 @@ import ProductModal from "./ProductModal/ProductModal";
 import { bodyScrollOff, bodyScrollOn } from "@/lib/utils/common";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { selectUser } from "@/lib/features/auth/authSlice";
-import {
-  getFavorites,
-  selectFavoritesId,
-} from "@/lib/features/favorites/favoritesSlice";
+import { getFavorites } from "@/lib/features/favorites/favoritesSlice";
+import { getBasket, selectBasket } from "@/lib/features/basket/basketSlice";
 
 const Catalog = ({ products }: { products: IProduct[] }) => {
   const [showModal, setShowModal] = useState(false);
-  const favorites = useAppSelector(selectFavoritesId);
+  const favorites = useAppSelector((state) => state.favoritesSlice).map(
+    (f) => f.productId
+  );
+  const basket = useAppSelector(selectBasket);
   const user = useAppSelector(selectUser);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    if (!user?.email || favorites) return;
+    if (!user?.email || favorites.length) return;
     dispatch(getFavorites(user?.email!));
+  }, [user?.email]);
+  useEffect(() => {
+    if (user?.email && basket.length === 0) {
+      dispatch(getBasket(user.email));
+    }
   }, [user?.email]);
 
   const handleModalOpen = () => {
@@ -51,7 +57,7 @@ const Catalog = ({ products }: { products: IProduct[] }) => {
           cnModal="_product-modal"
           cnModalWrapper="_common-modal-wrapper"
         >
-          <ProductModal />
+          <ProductModal email={user?.email || ""} />
         </Modal>
       )}
     </section>

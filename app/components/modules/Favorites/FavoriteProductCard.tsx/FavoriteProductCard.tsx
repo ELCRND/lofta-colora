@@ -19,13 +19,12 @@ type Props = {
 };
 
 const FavoriteProductCard = ({ product, modalHandler, user }: Props) => {
-  console.log(product);
   const dispatch = useAppDispatch();
-  const buy = () => {
+  const handleClickBuy = () => {
     dispatch(setProduct(product));
     modalHandler();
   };
-  const remove = () => {
+  const handleClickRemove = () => {
     user?.email
       ? dispatch(
           removeFromFavorites({ email: user.email, productId: product._id })
@@ -39,15 +38,16 @@ const FavoriteProductCard = ({ product, modalHandler, user }: Props) => {
         alt={product.type}
         width={100}
         height={50}
+        className="w-auto"
       />
       <Title
         name={product.name}
         type={product.type}
         date={product.date}
         price={product.price}
-        handleClick={buy}
+        handleClick={handleClickBuy}
       />
-      <RemoveFromFavorites handleClick={remove} />
+      <RemoveFromFavorites handleClick={handleClickRemove} />
     </div>
   );
 };

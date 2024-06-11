@@ -70,7 +70,7 @@ export const authSlice = createSlice({
       }
     });
     builder.addCase(refreshToken.fulfilled, (state, action) => {
-      state.currentUser = action.payload;
+      state.currentUser = action.payload.user;
       Cookies.set("jwt-session", JSON.stringify(action.payload.tokens));
     });
   },

@@ -76,12 +76,27 @@ export const createCollectionFavorites = async (
   });
   return favorites;
 };
+export const createCollectionBasket = async (
+  db: Db,
+  email: string,
+  initial = []
+) => {
+  const basket = await db.collection("basket").insertOne({
+    email,
+    products: initial,
+  });
+  return basket;
+};
 
 export const getCollectionsFavorites = async (db: Db, email: string) => {
   const collectionFavorites = await db
     .collection("favorites")
     .findOne({ email });
   return collectionFavorites;
+};
+export const getCollectionsBasket = async (db: Db, email: string) => {
+  const collectionBasket = await db.collection("basket").findOne({ email });
+  return collectionBasket;
 };
 
 export const isValidAccessToken = async (token: string | undefined) => {
