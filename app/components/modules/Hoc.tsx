@@ -1,15 +1,10 @@
 "use client";
-import {
-  refreshToken as refreshTokenFn,
-  selectUser,
-} from "@/lib/features/auth/authSlice";
+import { refreshToken as refreshTokenFn } from "@/lib/features/auth/authSlice";
 import { loginCheck } from "@/lib/features/auth/authSlice";
-import {
-  getFavorites,
-  setInitialStateFromLS,
-} from "@/lib/features/favorites/favoritesSlice";
+import { setInitialBasketFromLS } from "@/lib/features/basket/basketSlice";
+import { setInitialStateFromLS } from "@/lib/features/favorites/favoritesSlice";
 
-import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+import { useAppDispatch } from "@/lib/hooks";
 
 import Cookies from "js-cookie";
 import { ReactNode, useEffect } from "react";
@@ -22,7 +17,8 @@ const Hoc = ({ children }: Props) => {
   const dispatch = useAppDispatch();
   useEffect(() => {
     const cookies = Cookies.get("jwt-session");
-    const dataFromLs = JSON.parse(localStorage.getItem("favorites")!);
+    const favoritesFromLS = JSON.parse(localStorage.getItem("favorites")!);
+    const basketFromLS = JSON.parse(localStorage.getItem("basket")!);
     if (cookies) {
       const { accessToken, refreshToken } = JSON.parse(cookies);
       dispatch(loginCheck(accessToken)).then((res) => {
@@ -30,8 +26,11 @@ const Hoc = ({ children }: Props) => {
           dispatch(refreshTokenFn(refreshToken));
       });
     }
-    if (!cookies && dataFromLs && dataFromLs != "undefined") {
-      dispatch(setInitialStateFromLS(dataFromLs));
+    if (!cookies && favoritesFromLS && favoritesFromLS != "undefined") {
+      dispatch(setInitialStateFromLS(favoritesFromLS));
+    }
+    if (!cookies && basketFromLS && basketFromLS != "undefined") {
+      dispatch(setInitialBasketFromLS(basketFromLS));
     }
   }, []);
 

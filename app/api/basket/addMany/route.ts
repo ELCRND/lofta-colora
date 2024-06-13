@@ -17,7 +17,7 @@ export async function POST(req: Request) {
       }
     );
 
-    return NextResponse.json({ status: 201, message: "favorites saved in DB" });
+    return NextResponse.json({ status: 201, message: "basket saved in DB" });
   } catch (error) {
     throw new Error((error as Error).message);
   }

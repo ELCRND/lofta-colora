@@ -1,5 +1,3 @@
-import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-
 import { useState } from "react";
 import Gallery from "./Gallery/Gallery";
 import Characteristics from "./Characteristics/Characteristics";
@@ -8,10 +6,8 @@ import Price from "@/app/components/elements/Product/Price";
 import AddToCart from "@/app/components/elements/Product/AddToCart";
 import BuyBtn from "@/app/components/elements/Product/BuyBtn";
 import { selectProduct } from "@/lib/features/slices/productSlice";
-import {
-  addToBasket,
-  selectIsLoadingBasket,
-} from "@/lib/features/basket/basketSlice";
+import { addProductToLS, addToBasket } from "@/lib/features/basket/basketSlice";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 
 const ProductModal = ({ email }: { email: string }) => {
   const product = useAppSelector(selectProduct);
@@ -25,21 +21,24 @@ const ProductModal = ({ email }: { email: string }) => {
     })
     .includes(product._id + product.characteristics.sizes[size]);
   const handleClick = () => {
+    const selectedProducts = {
+      id: product._id,
+      name: product.name,
+      type: product.type,
+      count,
+      price,
+      img: product.images.filter((i) => i.includes("_" + (size + 1)))[0],
+      size: product.characteristics.sizes[size],
+    };
     if (email) {
       dispatch(
         addToBasket({
           email,
-          product: {
-            id: product._id,
-            name: product.name,
-            type: product.type,
-            count,
-            price,
-            img: product.images.filter((i) => i.includes("_" + (size + 1)))[0],
-            size: product.characteristics.sizes[size],
-          },
+          product: selectedProducts,
         })
       );
+    } else {
+      dispatch(addProductToLS(selectedProducts));
     }
   };
 

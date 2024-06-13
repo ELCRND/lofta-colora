@@ -15,7 +15,7 @@ const Concrete = () => {
           <span>Арт-Бетон</span>
         </div>
 
-        <article className="max-w-[510px] my-5 py-2 pl-4 bg-[rgba(0,0,0,0.5)] rounded-2xl bg-[url('/kits/concrete/concrete_outline.png')] bg-contain bg-no-repeat bg-left">
+        <article className="max-w-[510px] my-5 py-2 px-4 bg-[rgba(0,0,0,0.5)] rounded-2xl bg-[url('/kits/concrete/concrete_outline.png')] bg-contain bg-no-repeat bg-left">
           <h1 className="mb-5 ml-8 pt-[10px] text-xl font-medium">
             Арт - Бетон
           </h1>

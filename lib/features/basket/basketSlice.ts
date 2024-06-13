@@ -4,28 +4,15 @@ import { createAsyncThunk, type PayloadAction } from "@reduxjs/toolkit";
 import {
   addProductToBasket,
   getBasketFromDb,
+  getBasketStateFromLS,
   removeProductFromBasket,
 } from "./basketApi";
 import toast from "react-hot-toast";
+import { IBasketProduct } from "@/types/products";
 
-export type BasketProduct = {
-  id: string;
-  name: string;
-  type: string;
-  count: number;
-  price: number;
-  img: string;
-  size: number | string;
-};
-
-export interface BasketSliceState {
-  isLoading: boolean;
-  products: BasketProduct[];
-}
-
-const initialState: BasketSliceState = {
+const initialState = {
   isLoading: false,
-  products: [],
+  products: <IBasketProduct[]>[],
 };
 
 export const getBasket = createAsyncThunk("api/basket", getBasketFromDb);
@@ -43,9 +30,10 @@ export const basketSlice = createAppSlice({
   initialState: initialState,
   reducers: (create) => ({
     addProductToLS: create.reducer(
-      (state, action: PayloadAction<BasketProduct>) => {
+      (state, action: PayloadAction<IBasketProduct>) => {
         state.products.push(action.payload);
-        localStorage.setItem("basket", JSON.stringify(state));
+        localStorage.setItem("basket", JSON.stringify(state.products));
+        toast("Товар добавлен в корзину");
       }
     ),
     removeProductFromLS: create.reducer(
@@ -53,11 +41,12 @@ export const basketSlice = createAppSlice({
         const newState = state.products.filter((f) => f.id !== action.payload);
         localStorage.setItem("basket", JSON.stringify(newState));
         state.products = newState;
+        toast("Товар удален из корзины");
       }
     ),
 
     setInitialBasketFromLS: create.reducer(
-      (state, action: PayloadAction<BasketProduct[]>) => {
+      (state, action: PayloadAction<IBasketProduct[]>) => {
         state.products = action.payload;
       }
     ),
@@ -67,31 +56,30 @@ export const basketSlice = createAppSlice({
     selectBasket: (state) => state.products,
     selectIsLoadingBasket: (state) => state.isLoading,
   },
+
   extraReducers: (builder) => {
+    /*
+      initial state from DB,
+      if DB returned <empty> try get state from LS, 
+      if LS <empty> return []
+    */
     builder.addCase(getBasket.fulfilled, (state, action) => {
-      // if (!action.payload.products.length) {
-      //   const dataFromLS = localStorage.getItem("basket");
-      //   if (dataFromLS) {
-      //     const initialDataFromLS = JSON.parse(dataFromLS);
-      //     state = initialDataFromLS;
-      //     fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/basket/addMany`, {
-      //       method: "POST",
-      //       headers: { "Content-Type": "application/json" },
-      //       body: JSON.stringify({
-      //         email: action.payload.email,
-      //         newData: initialDataFromLS,
-      //       }),
-      //     });
-      //     return;
-      //   }
-      // }
+      if (!action.payload.products.length) {
+        state.products = getBasketStateFromLS(action.payload.email);
+        return;
+      }
+      state.products = action.payload.favoritesId;
       state.products = action.payload.products;
       state.isLoading = false;
     });
     builder.addCase(getBasket.pending, (state) => {
       state.isLoading = true;
     });
+    builder.addCase(getBasket.rejected, (state) => {
+      state.isLoading = false;
+    });
 
+    /* add product */
     builder.addCase(addToBasket.fulfilled, (state, action) => {
       if (action.payload.status === 201) {
         toast("Товар добавлен в корзину");
@@ -105,8 +93,18 @@ export const basketSlice = createAppSlice({
     builder.addCase(addToBasket.rejected, (state) => {
       state.isLoading = false;
     });
+
+    /* remove product */
     builder.addCase(removeFromBasket.fulfilled, (state, action) => {
       state.products = action.payload.updateBasket.products;
+      state.isLoading = false;
+      toast("Товар удален из корзины");
+    });
+    builder.addCase(removeFromBasket.pending, (state) => {
+      state.isLoading = false;
+    });
+    builder.addCase(removeFromBasket.rejected, (state) => {
+      state.isLoading = true;
     });
   },
 });

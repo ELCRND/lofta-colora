@@ -8,6 +8,8 @@ body {
   padding: 0;
   margin: 0;
   font-family: system-ui, sans-serif;
+  scrollbar-width: thin;
+  scrollbar-color: rgb(0, 130, 190) rgb(41, 41, 41);
 }
 
 a {
@@ -114,12 +116,28 @@ a {
   z-index: -1;
 }
 ._inner-nav:hover {
-  border-color: bisque;
-  color: bisque;
+  border-color: rgb(253, 230, 138);
+  color: rgb(253, 230, 138);
   transition: all 1.8s ease;
 }
-._inner-nav:hover::before {
+._inner-nav:hover::before,
+._inner-nav:focus::before {
   animation: inner_nav_hover 0.2s linear 0.2s forwards;
+}
+
+._basket-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: rgb(0, 130, 190) rgb(41, 41, 41);
+}
+
+._btn {
+  border-width: 1px;
+  border-style: solid;
+  border-radius: 8px;
+}
+._btn:active {
+  background-color: rgba(255, 255, 255, 0.1);
+  transition: background-color 150ms ease;
 }
 
 @keyframes inner_nav_hover {

@@ -1,27 +1,23 @@
 "use client";
 import { useEffect, useState } from "react";
 import Modal from "../Modal/Modal";
-import ProductModal from "../Catalog/ProductModal/ProductModal";
+import ProductModal from "../ProductModal/ProductModal";
 import FavoriteProductCard from "./FavoriteProductCard.tsx/FavoriteProductCard";
 
 import { bodyScrollOff, bodyScrollOn } from "@/lib/utils/common";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-import {
-  getFavorites,
-  selectFavorites,
-  selectFavoritesId,
-} from "@/lib/features/favorites/favoritesSlice";
+
 import { IProduct } from "@/types/products";
 import { selectUser } from "@/lib/features/auth/authSlice";
+import { getFavorites } from "@/lib/features/favorites/favoritesUtils";
+import { selectFavorites } from "@/lib/features/favorites/favoritesSlice";
 
 const Favorites = ({ products }: { products: IProduct[] }) => {
   const [showModal, setShowModal] = useState(false);
   const dispatch = useAppDispatch();
   const user = useAppSelector(selectUser);
-  const favorites = useAppSelector(selectFavorites);
-  const favoritesId = useAppSelector((state) => state.favoritesSlice).map(
-    (f) => f.productId
-  );
+  const { products: favorites, isLoading } = useAppSelector(selectFavorites);
+  const favoritesId = favorites.map((p) => p.productId);
   const favoritesProducts = structuredClone(products).filter(
     (product: IProduct) => {
       const idx = favoritesId.indexOf(product._id);

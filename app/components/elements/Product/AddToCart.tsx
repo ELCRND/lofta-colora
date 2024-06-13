@@ -16,7 +16,7 @@ const AddToCart = ({
       type="button"
       disabled={disabled || isLoading}
       onClick={onClick}
-      className="py-3 px-12 rounded-md bg-slate-500 text-white hover:bg-orange-400 disabled:bg-slate-500 transition-colors"
+      className="_btn py-3 px-12 text-white transition-colors hover:text-amber-100 hover:border-amber-100 disabled:text-gray-400 disabled:border-gray-400"
     >
       {isLoading ? "Подождите..." : isInBusket ? "Добавлено" : "В корзину"}
     </button>

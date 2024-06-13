@@ -3,7 +3,7 @@ import Link from "next/link";
 
 const WorldMap = () => {
   return (
-    <section className="h-screen pb-20 relative overflow-hidden bg-[url('/kits/kits_layers_base.jpeg')] bg-cover text-white">
+    <section className="h-screen pb-20 relative overflow-hidden bg-[url('/common_layers_base.jpeg')] bg-cover text-white">
       <div className="h-full">
         <div className="h-full bg-[url('/kits/concrete/concrete_layers_front.png')] bg-contain bg-no-repeat bg-right "></div>
         <div className="w-full h-full relative -top-[95%] left-[2%]  bg-[url('/kits/kits_outline.png')] bg-contain bg-no-repeat bg-right"></div>
@@ -15,7 +15,7 @@ const WorldMap = () => {
           <span>Карта мира</span>
         </div>
 
-        <article className="max-w-[510px] my-5 py-2 pl-4 bg-[url('/kits/concrete/concrete_outline.png')] bg-contain bg-no-repeat bg-left">
+        <article className="max-w-[510px] my-5 py-2 px-4 bg-[rgba(0,0,0,0.5)] rounded-2xl  bg-[url('/kits/concrete/concrete_outline.png')] bg-contain bg-no-repeat bg-left">
           <h1 className="mb-5 ml-8 pt-[10px] text-xl font-medium">
             Карта мира
           </h1>

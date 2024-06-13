@@ -322,7 +322,7 @@ const Logo = () => {
         </g>
       </svg>
       <Link href={"/"} className="text-base">
-        LOFTA COLORA
+        CHROMA ART
       </Link>
     </div>
   );

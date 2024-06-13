@@ -28,3 +28,18 @@ export interface IProduct {
   characteristics: ICharacteristics;
   date?: string;
 }
+
+export interface IFavoritesProducts {
+  productId: string;
+  dateAdded: string;
+}
+
+export interface IBasketProduct {
+  id: string;
+  name: string;
+  type: string;
+  count: number;
+  price: number;
+  img: string;
+  size: number | string;
+}

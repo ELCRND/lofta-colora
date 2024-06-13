@@ -10,7 +10,7 @@ const Services = () => {
           <ol className="flex flex-col gap-20">
             <li>
               <Link
-                className="_inner-nav py-3 px-8 border border-white rounded-2xl text-xl"
+                className="_inner-nav py-3 px-8 border border-white rounded-2xl text-xl outline-none"
                 href={"services/designer"}
               >
                 Дизайнер
@@ -18,7 +18,7 @@ const Services = () => {
             </li>
             <li>
               <Link
-                className="_inner-nav py-3 px-8 border border-white rounded-2xl text-xl"
+                className="_inner-nav py-3 px-8 border border-white rounded-2xl text-xl outline-none"
                 href={"/services/artist"}
               >
                 Художник декоратор
@@ -26,7 +26,7 @@ const Services = () => {
             </li>
             <li>
               <Link
-                className="_inner-nav py-3 px-8 border border-white rounded-2xl text-xl"
+                className="_inner-nav py-3 px-8 border border-white rounded-2xl text-xl outline-none"
                 href={"/services/coatingSelection"}
               >
                 Подбор покрытия

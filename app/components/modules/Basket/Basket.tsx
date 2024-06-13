@@ -2,11 +2,11 @@
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import SettingsBtn from "../../elements/Basket/SettingsBtn";
 import { selectUser } from "@/lib/features/auth/authSlice";
-import Image from "next/image";
 import { useEffect } from "react";
 import {
   getBasket,
   removeFromBasket,
+  removeProductFromLS,
   selectBasket,
 } from "@/lib/features/basket/basketSlice";
 import BusketProduct from "./BasketProduct/BasketProduct";
@@ -20,8 +20,9 @@ const Basket = () => {
     productSize: number | string
   ) => {
     if (user) {
-      console.log(productSize);
       dispatch(removeFromBasket({ email: user, productId, productSize }));
+    } else {
+      dispatch(removeProductFromLS(productId));
     }
   };
   useEffect(() => {
@@ -30,7 +31,7 @@ const Basket = () => {
     }
   }, [user]);
   return (
-    <section className="_container min-h-screen pt-32 relative overflow-hidden bg-black bg-[url('/common_layers_base.jpeg')] bg-cover">
+    <section className="_container h-screen pt-32 relative overflow-hidden bg-black bg-[url('/basket/basket_bg.jpeg')] bg-cover bg-center">
       <h1 className="mb-16 text-3xl font-semibold text-white">Корзина</h1>
       <h2 className="pb-1 flex items-center gap-2 text-xl font-semibold text-white border-b-2">
         {user ? (
@@ -39,10 +40,13 @@ const Basket = () => {
           <span>Не авторизованный пользователь</span>
         )}
         <SettingsBtn />
+        <button className="_btn ml-auto mr-10 mb-3 py-2 px-3  text-xl text-center text-amber-100 hover:text-amber-200 active:text-amber-100  transition-colors">
+          Оформить заказ
+        </button>
       </h2>
 
       <ol
-        className={`w-3/5 h-[600px] pr-10 flex flex-col gap-10 absolute top-1/3 right-20 z-10 ${
+        className={`w-full max-w-[60vw] h-[600px] mt-10 ml-auto pr-10 flex flex-col gap-10  _basket-scrollbar ${
           products.length > 3 && "overflow-y-scroll"
         }`}
       >
@@ -53,10 +57,6 @@ const Basket = () => {
           />
         ))}
       </ol>
-
-      <div className="w-full h-full max-w-[600px] max-h-[500px] p-4 absolute -bottom-5 -left-6 z-0 after:bg-[url('/basket/outline.png')] after:absolute after:-top-5 after:left-7 after:w-full after:h-full">
-        <Image src={"/basket/bg.png"} alt="" width={600} height={500} />
-      </div>
     </section>
   );
 };

@@ -1,30 +1,46 @@
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
+const routes = [
+  { path: "/kits", title: "Комплекты" },
+  { path: "/catalog", title: "Каталог" },
+  { path: "/partners", title: "Партнерам" },
+  { path: "/stock", title: "Акции" },
+  { path: "/about", title: "О нас" },
+  { path: "/services", title: "Услуги" },
+];
 const GlobalNavigation = () => {
+  const path = usePathname();
   return (
     <nav>
       <ol className="flex gap-[86px]">
-        <li>
-          <Link href={"/kits"}>Комплекты</Link>
-        </li>
-        <li>
-          <Link href={"/catalog"}>Каталог</Link>
-        </li>
-        <li>
-          <Link href={"/"}>Партнерам</Link>
-        </li>
-        <li>
-          <Link href={"/"}>Акции</Link>
-        </li>
-        <li>
-          <Link href={"/"}>О нас</Link>
-        </li>
-        <li>
-          <Link href={"/services"}>Услуги</Link>
-        </li>
+        {routes.map((r) => (
+          <LinkComponent
+            key={r.path}
+            path={r.path}
+            title={r.title}
+            isActive={r.path === path}
+          />
+        ))}
       </ol>
     </nav>
   );
 };
 
 export default GlobalNavigation;
+
+const LinkComponent = ({
+  path,
+  title,
+  isActive,
+}: {
+  path: string;
+  title: string;
+  isActive: boolean;
+}) => {
+  return (
+    <Link className={`${isActive && "text-amber-200"}`} href={path}>
+      {title}
+    </Link>
+  );
+};

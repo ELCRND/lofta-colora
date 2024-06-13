@@ -1,42 +1,41 @@
-"use client";
 import { useState } from "react";
 import Image from "next/image";
 import CardBtn from "@/app/components/elements/Product/CardBtn";
 import CardSizeToggler from "@/app/components/elements/Product/CardSizeToggler";
-import { setProduct } from "@/lib/features/slices/productSlice";
-import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-import { IProduct } from "@/types/products";
-
 import CardActions from "@/app/components/elements/Catalog/CardActions";
+import { setProduct } from "@/lib/features/slices/productSlice";
 import {
-  addToFavorites,
   addToFavoritesInLS,
   removeFavoritesFromLS,
-  removeFromFavorites,
 } from "@/lib/features/favorites/favoritesSlice";
+import {
+  addToFavorites,
+  removeFromFavorites,
+} from "@/lib/features/favorites/favoritesUtils";
+import { useAppDispatch } from "@/lib/hooks";
+import { getDateAdded } from "@/lib/utils/common";
+import { IProduct } from "@/types/products";
 
 type Props = {
   product: IProduct;
-  modalHandler: VoidFunction;
-  isFavorite: boolean;
   email: string;
+  isFavorite: boolean;
+  isLoading: boolean;
+  modalHandler: VoidFunction;
 };
 
-const ProductCard = ({ product, modalHandler, isFavorite, email }: Props) => {
+const ProductCard = ({
+  product,
+  email,
+  isFavorite,
+  isLoading,
+  modalHandler,
+}: Props) => {
   const [size, setSize] = useState(0);
   const dispatch = useAppDispatch();
   const handleClick = () => {
     dispatch(setProduct(product));
     modalHandler();
-  };
-
-  const date = new Date();
-  const options: Intl.DateTimeFormatOptions = {
-    year: "2-digit",
-    month: "long",
-    day: "numeric",
-    hour: "numeric",
-    minute: "numeric",
   };
 
   const handleFavorites = () => {
@@ -51,13 +50,13 @@ const ProductCard = ({ product, modalHandler, isFavorite, email }: Props) => {
           addToFavorites({
             email,
             productId: product._id,
-            dateAdded: new Intl.DateTimeFormat("ru-RU", options).format(date),
+            dateAdded: getDateAdded(),
           })
         )
       : dispatch(
           addToFavoritesInLS({
             productId: product._id,
-            dateAdded: new Intl.DateTimeFormat("ru-RU", options).format(date),
+            dateAdded: getDateAdded(),
           })
         );
   };
@@ -67,7 +66,12 @@ const ProductCard = ({ product, modalHandler, isFavorite, email }: Props) => {
       tabIndex={0}
       className="py-5 flex flex-col items-center relative text-white bg-slate-800 bg-opacity-20 rounded-3xl border border-gray-800 hover:border-gray-400 hover:bg-opacity-30 focus:bg-opacity-30 transition-colors"
     >
-      <CardActions isFavorite={isFavorite} handleClick={handleFavorites} />
+      <CardActions
+        key={product._id}
+        isFavorite={isFavorite}
+        handleClick={handleFavorites}
+        isLoading={isLoading}
+      />
       <div className="w-36 h-40 flex justify-center items-center">
         <Image
           src={product.images[size]}

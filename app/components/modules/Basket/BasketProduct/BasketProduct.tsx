@@ -1,19 +1,19 @@
+import { useState } from "react";
+import Image from "next/image";
 import Counter from "@/app/components/elements/Basket/Counter";
 import Title from "@/app/components/elements/Basket/Title";
-import { BasketProduct as Product } from "@/lib/features/basket/basketSlice";
-import Image from "next/image";
-import { useState } from "react";
+import { IBasketProduct } from "@/types/products";
 
 const BasketProduct = ({
   product,
   handleClick,
 }: {
-  product: Product;
+  product: IBasketProduct;
   handleClick: (id: string, size: string | number) => void;
 }) => {
   const [count, setCount] = useState(product.count);
   return (
-    <li className="min-h-32 py-2 px-5 flex items-center  bg-neutral-900 bg-opacity-80 rounded-2xl text-white border border-black hover:border-white transition-all hover:bg-opacity-100">
+    <li className="last-of-type:mb-80 min-h-32 py-2 px-5 flex items-center  bg-neutral-900 bg-opacity-80 rounded-2xl text-white border border-black hover:border-white transition-all hover:bg-opacity-100">
       <Image
         className="mr-10"
         src={product.img}

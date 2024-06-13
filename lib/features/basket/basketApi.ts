@@ -1,4 +1,4 @@
-import { BasketProduct } from "./basketSlice";
+import { IBasketProduct } from "@/types/products";
 
 export const getBasketFromDb = async (email: string) => {
   const response = await fetch(
@@ -19,7 +19,7 @@ export const addProductToBasket = async ({
   product,
 }: {
   email: string;
-  product: BasketProduct;
+  product: IBasketProduct;
 }) => {
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_BASE_URL}/api/basket/addOne`,
@@ -53,4 +53,21 @@ export const removeProductFromBasket = async ({
   const result = await response.json();
 
   return result;
+};
+
+export const getBasketStateFromLS = (email: string): IBasketProduct[] => {
+  const dataFromLS = localStorage.getItem("basket");
+  if (dataFromLS) {
+    const initialDataFromLS = JSON.parse(dataFromLS);
+    fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/basket/addMany`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        email: email,
+        newData: initialDataFromLS,
+      }),
+    });
+    return initialDataFromLS;
+  }
+  return [];
 };
