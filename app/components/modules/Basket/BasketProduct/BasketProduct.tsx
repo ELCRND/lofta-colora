@@ -13,9 +13,9 @@ const BasketProduct = ({
 }) => {
   const [count, setCount] = useState(product.count);
   return (
-    <li className="last-of-type:mb-80 min-h-32 py-2 px-5 flex items-center  bg-neutral-900 bg-opacity-80 rounded-2xl text-white border border-black hover:border-white transition-all hover:bg-opacity-100">
+    <li className="min-h-[none] sm:min-h-32 md:flex-row last-of-type:mb-80 py-2 px-5 flex flex-col items-center bg-neutral-900 bg-opacity-80 rounded-2xl text-white text-center border border-black hover:border-white transition-all hover:bg-opacity-100">
       <Image
-        className="mr-10"
+        className="md:mr-10"
         src={product.img}
         alt={product.type}
         width={80}
@@ -27,7 +27,7 @@ const BasketProduct = ({
         <b className="text-amber-200">{product.price * count}</b> Р
       </span>
       <button
-        className="self-start"
+        className="md:self-start self-end"
         onClick={() => handleClick(product.id, product.size)}
       >
         X

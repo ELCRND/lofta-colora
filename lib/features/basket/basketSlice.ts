@@ -37,8 +37,19 @@ export const basketSlice = createAppSlice({
       }
     ),
     removeProductFromLS: create.reducer(
-      (state, action: PayloadAction<string>) => {
-        const newState = state.products.filter((f) => f.id !== action.payload);
+      (
+        state,
+        action: PayloadAction<{
+          productId: string;
+          productSize: string | number;
+        }>
+      ) => {
+        const newState = state.products.filter(
+          (f) =>
+            f.id !== action.payload.productId ||
+            f.size != action.payload.productSize
+        );
+
         localStorage.setItem("basket", JSON.stringify(newState));
         state.products = newState;
         toast("Товар удален из корзины");
@@ -64,13 +75,12 @@ export const basketSlice = createAppSlice({
       if LS <empty> return []
     */
     builder.addCase(getBasket.fulfilled, (state, action) => {
-      if (!action.payload.products.length) {
-        state.products = getBasketStateFromLS(action.payload.email);
-        return;
-      }
-      state.products = action.payload.favoritesId;
-      state.products = action.payload.products;
       state.isLoading = false;
+      if (!action.payload || !action.payload?.products?.length) {
+        state.products = getBasketStateFromLS(action.payload.email);
+        return state;
+      }
+      state.products = action.payload.products;
     });
     builder.addCase(getBasket.pending, (state) => {
       state.isLoading = true;

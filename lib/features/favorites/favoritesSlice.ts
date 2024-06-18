@@ -64,7 +64,7 @@ export const favoritesSlice = createAppSlice({
     });
     builder.addCase(getFavorites.fulfilled, (state, action) => {
       state.isLoading = false;
-      if (!action.payload.favoritesId.length) {
+      if (!action.payload) {
         state.products = getFavoritesStateFromLS(action.payload.email);
         return;
       }

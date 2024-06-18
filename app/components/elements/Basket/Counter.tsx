@@ -23,7 +23,7 @@ const Counter = ({
     setCount((c: number) => c - 1);
   };
   return (
-    <div className="ml-auto mr-24 flex gap-8 items-center text-2xl">
+    <div className="my-4 md:my-0 md:mx-auto lg:ml-auto lg:mr-24 flex gap-8 items-center text-2xl">
       <button
         className="hover:scale-150 focus:scale-150 transition-all"
         onClick={handleDecrementCount}

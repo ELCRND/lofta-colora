@@ -13,7 +13,7 @@ const GlobalNavigation = () => {
   const path = usePathname();
   return (
     <nav>
-      <ol className="flex gap-[86px]">
+      <ol className="hidden lg:flex gap-[86px]">
         {routes.map((r) => (
           <LinkComponent
             key={r.path}

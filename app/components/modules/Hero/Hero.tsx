@@ -6,7 +6,7 @@ const Hero = () => {
     <section className="h-screen grid bg-[url('/hero/hero_bg.jpeg')] bg-cover text-white text-center">
       <div className="flex flex-col items-center absolute top-[170px] left-1/2 -translate-x-1/2">
         <Logo />
-        <h1 className="mt-6 text-4xl font-normal">LOFTA COLORA</h1>
+        <h1 className="mt-6 text-4xl font-normal">CHROMA ART</h1>
         <h2 className="text-2xl font-normal">Ваш проводник в мир дизайна</h2>
       </div>
       <div className="_container self-end mb-9 flex justify-between">

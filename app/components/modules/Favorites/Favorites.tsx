@@ -27,7 +27,6 @@ const Favorites = ({ products }: { products: IProduct[] }) => {
       }
     }
   );
-
   useEffect(() => {
     if (!user?.email || favorites.length) return;
     dispatch(getFavorites(user?.email!));
@@ -42,16 +41,22 @@ const Favorites = ({ products }: { products: IProduct[] }) => {
   };
   return (
     <section className="min-h-screen pt-32 flex  justify-center items-center bg-black bg-[url('/common_layers_base.jpeg')]">
-      <div className="w-3/4 flex flex-col gap-16 ">
-        {favoritesProducts.map((f) => (
-          <FavoriteProductCard
-            key={f._id}
-            product={f}
-            modalHandler={handleModalOpen}
-            user={user}
-          />
-        ))}
-      </div>
+      {favoritesProducts.length > 0 ? (
+        <div className="w-3/4 flex flex-col gap-16 ">
+          {favoritesProducts.map((f) => (
+            <FavoriteProductCard
+              key={f._id}
+              product={f}
+              modalHandler={handleModalOpen}
+              user={user}
+            />
+          ))}
+        </div>
+      ) : (
+        <h1 className="text-white text-3xl">
+          Коллекция избранных товаров пуста
+        </h1>
+      )}
       {showModal && (
         <Modal
           onClose={handleModalClose}
