@@ -15,3 +15,5 @@ export default async function IndexPage() {
 export const metadata: Metadata = {
   title: "Избранное",
 };
+
+export const dynamic = "force-dynamic";

@@ -1,5 +1,4 @@
 import { Metadata } from "next";
-import Catalog from "../components/modules/Catalog/Catalog";
 import Basket from "../components/modules/Basket/Basket";
 
 export default async function IndexPage() {
