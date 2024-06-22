@@ -12,7 +12,8 @@ import { selectUser } from "@/lib/features/auth/authSlice";
 import { getFavorites } from "@/lib/features/favorites/favoritesUtils";
 import { selectFavorites } from "@/lib/features/favorites/favoritesSlice";
 
-const Favorites = ({ products }: { products: IProduct[] }) => {
+const Favorites = () => {
+  const [products, setProducts] = useState<IProduct[]>([]);
   const [showModal, setShowModal] = useState(false);
   const dispatch = useAppDispatch();
   const user = useAppSelector(selectUser);
@@ -39,6 +40,12 @@ const Favorites = ({ products }: { products: IProduct[] }) => {
     setShowModal(false);
     bodyScrollOn();
   };
+  useEffect(() => {
+    fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/products`)
+      .then((res) => res.json())
+      .then((res) => setProducts(res));
+  }, []);
+
   return (
     <section className="min-h-screen pt-32 flex  justify-center items-center bg-black bg-[url('/common_layers_base.jpeg')]">
       {favoritesProducts.length > 0 ? (

@@ -12,7 +12,8 @@ import { bodyScrollOff, bodyScrollOn } from "@/lib/utils/common";
 import { IProduct } from "@/types/products";
 import { useSession } from "next-auth/react";
 
-const Catalog = ({ products }: { products: IProduct[] }) => {
+const Catalog = () => {
+  const [products, setProducts] = useState<IProduct[]>([]);
   const [showModal, setShowModal] = useState(false);
   const { products: favoritesProducts, isLoading } =
     useAppSelector(selectFavorites);
@@ -31,6 +32,11 @@ const Catalog = ({ products }: { products: IProduct[] }) => {
       dispatch(getFavorites(oAuth.user?.email));
     }
   }, [oAuth]);
+  useEffect(() => {
+    fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/products`)
+      .then((res) => res.json())
+      .then((res) => setProducts(res));
+  }, []);
 
   useEffect(() => {
     if (user?.email && basket.length === 0) {
