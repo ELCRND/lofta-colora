@@ -57,6 +57,7 @@ export const authSlice = createSlice({
         state.currentUser = action.payload.user;
         Cookies.set("jwt-session", JSON.stringify(action.payload.tokens));
         toast("Вход успешно выполнен");
+        window.location.reload();
       }
     });
     builder.addCase(signin.rejected, (state) => {

@@ -17,7 +17,6 @@ import MenuBtn from "../../elements/Header/MenuBtn";
 import { selectUser } from "@/lib/features/auth/authSlice";
 import { signOut as signOutFromJwtSession } from "@/lib/features/auth/authSlice";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-import { redirect } from "next/navigation";
 import BasketBtn from "../../elements/Header/BasketBtn";
 
 export const AuthContext = createContext<{
@@ -50,7 +49,7 @@ const Header = () => {
       return;
     }
     dispatch(signOutFromJwtSession());
-    redirect("/");
+    window.location.reload();
   };
   const handleModalOpen = () => {
     setModalActive(true);
