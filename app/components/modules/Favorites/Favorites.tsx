@@ -32,6 +32,7 @@ const Favorites = () => {
     if (!user?.email || favorites.length) return;
     dispatch(getFavorites(user?.email!));
   }, [user?.email]);
+
   const handleModalOpen = () => {
     setShowModal(true);
     bodyScrollOff();
